@@ -12,6 +12,7 @@ echo "Disabling OpenEBS"
 disable_openebs() {
 
     $HELM -n $OPENEBS_NS uninstall openebs
+    $KUBECTL delete namespace $OPENEBS_NS
 
     echo "OpenEBS disabled"
     echo "Manually clean up the directory $SNAP_COMMON/var/openebs/"
