@@ -1,19 +1,10 @@
 microk8s-addons:
-  description: "My awesome demo repository."
+  description: "WPK8S MicroK8S addons."
   addons:
-    - name: "python-hello-k8s"
-      description: "Demo addon implemented in python"
+    - name: "openebs"
+      description: "Alternative OpenEBS addon with NFS and Jiva only"
       version: "1.0.0"
-      check_status: "deployment.apps/python-demo-nginx"
+      check_status: "deployment.apps/openebs"
       supported_architectures:
         - arm64
         - amd64
-
-    - name: "bash-hello-k8s"
-      description: "Bash based demo addon"
-      version: "1.0.0"
-      check_status: "deployment.apps/bash-demo-nginx"
-      supported_architectures:
-        - amd64
-        - arm64
-        - s390x
