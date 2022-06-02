@@ -49,7 +49,6 @@ $HELM repo add openebs https://openebs.github.io/charts
 $HELM repo update
 $HELM -n $OPENEBS_NS install openebs openebs/openebs \
     --version 3.2.x \
-    --set localprovisioner.enabled=false \
     --set ndm.enabled=false \
     --set ndmOperator.enabled=false \
     --set jiva.enabled=true \
