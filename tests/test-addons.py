@@ -1,13 +1,15 @@
 import sh
 import yaml
 
-from utils import microk8s_enable, wait_for_pod_state, microk8s_disable
+from utils import kubectl_get, microk8s_enable, wait_for_pod_state, microk8s_disable
 
 
 class TestAddons(object):
-    def test_python_demo_nginx(self):
-        microk8s_enable("python-hello-k8s")
-        wait_for_pod_state("", "default", "running", label="app=python-demo-nginx")
+    def test_openebs(self):
+        microk8s_enable("openebs")
+        wait_for_pod_state("", "openebs", "running", label="app=openebs")
+        wait_for_pod_state("", "openebs", "running", label="component=nfs-provisioner")
+        wait_for_pod_state("", "openebs", "running", label="component=jiva-operator")
         status = yaml.safe_load(sh.microk8s.status(format="yaml").stdout)
-        expected = {"python-hello-k8s": "enabled"}
-        microk8s_disable("python-hello-k8s")
+        expected = {"openebs": "enabled"}
+        microk8s_disable("openebs")
