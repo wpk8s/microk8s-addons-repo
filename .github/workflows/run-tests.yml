@@ -18,7 +18,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install python3-setuptools open-iscsi nfs-common
           sudo systemctl enable --now iscsid
-          sudo systemctl enable --now nfs-common
           sudo pip3 install --upgrade pip
           sudo pip3 install -U pytest sh
       - name: Running addons tests
