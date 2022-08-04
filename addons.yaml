@@ -3,7 +3,7 @@ microk8s-addons:
   addons:
     - name: "openebs"
       description: "Alternative OpenEBS addon with NFS and Jiva only"
-      version: "1.0.0"
+      version: "3.3.0"
       check_status: "deployment.apps/openebs"
       supported_architectures:
         - arm64
