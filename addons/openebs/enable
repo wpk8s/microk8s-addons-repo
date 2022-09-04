@@ -44,14 +44,15 @@ $HELM repo add openebs https://openebs.github.io/charts
 $HELM repo update
 $HELM install openebs openebs/openebs --namespace $OPENEBS_NS --create-namespace \
     --version 3.3.x \
-    --set ndm.enabled=false \
-    --set ndmOperator.enabled=false \
+    --set legacy.enabled=false \
+    --set varDirectoryPath.baseDir="$SNAP_COMMON/var/openebs" \
+    --set openebs-ndm.enabled=true \
+    --set localpv-provisioner.enabled=true \
+    --set localprovisioner.basePath="$SNAP_COMMON/var/openebs/local" \
     --set jiva.enabled=true \
     --set jiva.storageClass.name=openebs-jiva \
     --set jiva.storageClass.isDefaultClass=true \
     --set jiva.csiNode.kubeletDir="$SNAP_COMMON/var/lib/kubelet/" \
-    --set localprovisioner.basePath="$SNAP_COMMON/var/openebs/local" \
-    --set varDirectoryPath.baseDir="$SNAP_COMMON/var/openebs" \
     --set nfs-provisioner.enabled=true \
     --set nfs-provisioner.nfsStorageClass.backendStorageClass=openebs-jiva
 
