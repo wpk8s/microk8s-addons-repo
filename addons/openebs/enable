@@ -42,7 +42,7 @@ HELM="$SNAP/microk8s-helm3.wrapper"
 
 $HELM repo add openebs https://openebs.github.io/charts
 $HELM repo update
-$HELM -n $OPENEBS_NS --create-namespace install openebs openebs/openebs \
+$HELM install openebs openebs/openebs --namespace $OPENEBS_NS --create-namespace \
     --version 3.3.x \
     --set ndm.enabled=false \
     --set ndmOperator.enabled=false \
