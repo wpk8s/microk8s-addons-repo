@@ -32,7 +32,7 @@ fi
 NFS_ENABLED=false
 
 # Call getopt to validate the provided input. 
-options=$(getopt -l nfs: -- "$@")
+options=$(getopt -o '' -l nfs: -- "$@" true)
 eval set -- "$options"
 while true; do
     case "$1" in
