@@ -29,11 +29,24 @@ if ! is_strict && ! systemctl is-enabled iscsid | grep enabled &> /dev/null
     exit   
 fi
 
-if ! is_strict && systemctl is-enabled nfs-common | grep enabled &> /dev/null
-  then "nfs client is not available or enabled."
-  print_nfsc_help
-  exit
-fi
+NFS_ENABLED=false
+
+# Call getopt to validate the provided input. 
+options=$(getopt -l nfs: -- "$@")
+eval set -- "$options"
+while true; do
+    case "$1" in
+    --nfs)
+        shift; # The arg is next in position args
+        NFS_ENABLED=true
+        ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+    shift
+done
 
 "$SNAP/microk8s-enable.wrapper" dns
 "$SNAP/microk8s-enable.wrapper" helm3
@@ -53,7 +66,7 @@ $HELM install openebs openebs/openebs --namespace $OPENEBS_NS --create-namespace
     --set jiva.storageClass.name=openebs-jiva \
     --set jiva.storageClass.isDefaultClass=true \
     --set jiva.csiNode.kubeletDir="$SNAP_COMMON/var/lib/kubelet/" \
-    --set nfs-provisioner.enabled=true \
+    --set nfs-provisioner.enabled=$NFS_ENABLED \
     --set nfs-provisioner.nfsStorageClass.backendStorageClass=openebs-jiva
 
 
@@ -81,7 +94,8 @@ spec:
     requests:
       storage: 5G
 "
-echo "" 
+echo ""
+echo "Only if you enabled NFS"
 echo "If you are planning to use OpenEBS with RWX accessModes, than use openebs-kernel-nfs StorageClass"
 echo "An example of creating a PersistentVolumeClaim utilizing the openebs-kernel-nfs StorageClass"
 echo "" 
@@ -98,9 +112,3 @@ spec:
     requests:
       storage: 5G
 "
-
-if is_strict
-then
-  print_iscsi_help
-  print_nfsc_help
-fi
